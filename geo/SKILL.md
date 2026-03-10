@@ -1,222 +1,334 @@
 ---
 name: geo
 description: >
-  GEO-first SEO analysis tool. Optimizes websites for AI-powered search engines
-  (ChatGPT, Claude, Perplexity, Gemini, Google AI Overviews) while maintaining
-  traditional SEO foundations. Performs full GEO audits, citability scoring,
-  AI crawler analysis, llms.txt generation, brand mention scanning, platform-specific
-  optimization, schema markup, technical SEO, content quality (E-E-A-T), and
-  client-ready GEO report generation. Use when user says "geo", "seo", "audit",
-  "AI search", "AI visibility", "optimize", "citability", "llms.txt", "schema",
-  "brand mentions", "GEO report", or any URL for analysis.
+  Audit GEO+SEO+GSC unifie pour Claude Code — optimisation pour moteurs IA
+  (ChatGPT, Claude, Perplexity, Gemini, Google AI Overviews) avec donnees
+  reelles Google Search Console. Citabilite IA, crawlers, llms.txt, brand
+  mentions, schema, technique, contenu E-E-A-T, keyword gap, et rapports PDF.
+  Utiliser quand l'utilisateur dit "geo", "seo", "gsc", "audit", "AI search",
+  "citabilite", "llms.txt", "schema", "brand mentions", ou toute URL a analyser.
 allowed-tools: Read, Grep, Glob, Bash, WebFetch, Write
 ---
 
-# GEO-SEO Analysis Tool — Claude Code Skill (February 2026)
+# GEO-SEO-GSC — Skill Unifie pour Claude Code
 
-> **Philosophy:** GEO-first, SEO-supported. AI search is eating traditional search.
-> This tool optimizes for where traffic is going, not where it was.
-
----
-
-## Quick Reference
-
-| Command | What It Does |
-|---------|-------------|
-| `/geo audit <url>` | Full GEO + SEO audit with parallel subagents |
-| `/geo page <url>` | Deep single-page GEO analysis |
-| `/geo citability <url>` | Score content for AI citation readiness |
-| `/geo crawlers <url>` | Check AI crawler access (robots.txt analysis) |
-| `/geo llmstxt <url>` | Analyze or generate llms.txt file |
-| `/geo brands <url>` | Scan brand mentions across AI-cited platforms |
-| `/geo platforms <url>` | Platform-specific optimization (ChatGPT, Perplexity, Google AIO) |
-| `/geo schema <url>` | Detect, validate, and generate structured data |
-| `/geo technical <url>` | Traditional technical SEO audit |
-| `/geo content <url>` | Content quality and E-E-A-T assessment |
-| `/geo report <url>` | Generate client-ready GEO deliverable |
-| `/geo report-pdf <url>` | Generate professional PDF report with charts and scores |
-| `/geo quick <url>` | 60-second GEO visibility snapshot |
+> **Philosophie:** GEO-first, SEO-supported, GSC-powered.
+> L'IA devore la recherche traditionnelle. Cet outil optimise pour ou le trafic va, pas ou il etait.
+> La difference avec l'original : **donnees reelles GSC** integrees a chaque audit.
 
 ---
 
-## Market Context (Why GEO Matters)
+## Reference Rapide
 
-| Metric | Value | Source |
-|--------|-------|--------|
-| GEO services market (2025) | $850M-$886M | Yahoo Finance / Superlines |
-| Projected GEO market (2031) | $7.3B (34% CAGR) | Industry analysts |
-| AI-referred sessions growth | +527% (Jan-May 2025) | SparkToro |
-| AI traffic conversion vs organic | 4.4x higher | Industry data |
-| Google AI Overviews reach | 1.5B users/month, 200+ countries | Google |
-| ChatGPT weekly active users | 900M+ | OpenAI |
-| Perplexity monthly queries | 500M+ | Perplexity |
-| Gartner: search traffic drop by 2028 | -50% | Gartner |
-| Marketers investing in GEO | Only 23% | Industry surveys |
-| Brand mentions vs backlinks for AI | 3x stronger correlation | Ahrefs (Dec 2025) |
-
----
-
-## Orchestration Logic
-
-### Full Audit (`/geo audit <url>`)
-
-**Phase 1: Discovery (Sequential)**
-1. Fetch homepage HTML (curl or WebFetch)
-2. Detect business type (SaaS, Local, E-commerce, Publisher, Agency, Other)
-3. Extract key pages from sitemap.xml or internal links (up to 50 pages)
-
-**Phase 2: Parallel Analysis (Delegate to Subagents)**
-Launch these 5 subagents simultaneously:
-
-| Subagent | File | Responsibility |
-|----------|------|---------------|
-| geo-ai-visibility | `agents/geo-ai-visibility.md` | GEO audit, citability, AI crawlers, llms.txt, brand mentions |
-| geo-platform-analysis | `agents/geo-platform-analysis.md` | Platform-specific optimization (ChatGPT, Perplexity, Google AIO) |
-| geo-technical | `agents/geo-technical.md` | Technical SEO, Core Web Vitals, crawlability, indexability |
-| geo-content | `agents/geo-content.md` | Content quality, E-E-A-T, readability, AI content detection |
-| geo-schema | `agents/geo-schema.md` | Schema markup detection, validation, generation |
-
-**Phase 3: Synthesis (Sequential)**
-1. Collect all subagent reports
-2. Calculate composite GEO Score (0-100)
-3. Generate prioritized action plan
-4. Output client-ready report
-
-### Scoring Methodology
-
-| Category | Weight | Measured By |
-|----------|--------|-------------|
-| AI Citability & Visibility | 25% | Passage scoring, answer block quality, AI crawler access |
-| Brand Authority Signals | 20% | Mentions on Reddit, YouTube, Wikipedia, LinkedIn; entity presence |
-| Content Quality & E-E-A-T | 20% | Expertise signals, original data, author credentials |
-| Technical Foundations | 15% | SSR, Core Web Vitals, crawlability, mobile, security |
-| Structured Data | 10% | Schema completeness, JSON-LD validation, rich result eligibility |
-| Platform Optimization | 10% | Platform-specific readiness (Google AIO, ChatGPT, Perplexity) |
+| Commande | Description |
+|----------|-------------|
+| `/geo audit <url>` | Audit complet GEO + SEO + GSC (tout) |
+| `/geo gsc` | Rapport Google Search Console seul (8 phases) |
+| `/geo quick <url>` | Snapshot GEO en 60 secondes |
+| `/geo citability <url>` | Score de citabilite IA par passage |
+| `/geo crawlers <url>` | Analyse robots.txt pour crawlers IA |
+| `/geo llmstxt <url>` | Analyse/generation llms.txt |
+| `/geo brands <url>` | Scan mentions de marque (YouTube, Reddit, Wikipedia...) |
+| `/geo platforms <url>` | Optimisation par plateforme (ChatGPT, Perplexity, Google AIO) |
+| `/geo schema <url>` | Audit donnees structurees + generation JSON-LD |
+| `/geo technical <url>` | Audit technique SEO |
+| `/geo content <url>` | Qualite contenu + E-E-A-T |
+| `/geo report <url>` | Rapport client markdown |
+| `/geo report-pdf <url>` | Rapport PDF professionnel avec graphiques |
 
 ---
 
-## Business Type Detection
+## Contexte Marche (Pourquoi GEO)
 
-Analyze homepage for patterns:
-
-| Type | Signals |
-|------|---------|
-| **SaaS** | Pricing page, "Sign up", "Free trial", "/app", "/dashboard", API docs |
-| **Local Service** | Phone number, address, "Near me", Google Maps embed, service area |
-| **E-commerce** | Product pages, cart, "Add to cart", price elements, product schema |
-| **Publisher** | Blog, articles, bylines, publication dates, article schema |
-| **Agency** | Portfolio, case studies, "Our services", client logos, testimonials |
-| **Other** | Default — apply general GEO best practices |
-
-Adjust recommendations based on detected type. Local businesses need LocalBusiness schema and Google Business Profile optimization. SaaS needs SoftwareApplication schema and comparison page strategy. E-commerce needs Product schema and review aggregation.
-
----
-
-## Sub-Skills (10 Specialized Components)
-
-| # | Skill | Directory | Purpose |
-|---|-------|-----------|---------|
-| 1 | geo-audit | `skills/geo-audit/` | Full audit orchestration and scoring |
-| 2 | geo-citability | `skills/geo-citability/` | Passage-level AI citation readiness |
-| 3 | geo-crawlers | `skills/geo-crawlers/` | AI crawler access and robots.txt |
-| 4 | geo-llmstxt | `skills/geo-llmstxt/` | llms.txt standard analysis and generation |
-| 5 | geo-brand-mentions | `skills/geo-brand-mentions/` | Brand presence on AI-cited platforms |
-| 6 | geo-platform-optimizer | `skills/geo-platform-optimizer/` | Platform-specific AI search optimization |
-| 7 | geo-schema | `skills/geo-schema/` | Structured data for AI discoverability |
-| 8 | geo-technical | `skills/geo-technical/` | Technical SEO foundations |
-| 9 | geo-content | `skills/geo-content/` | Content quality and E-E-A-T |
-| 10 | geo-report | `skills/geo-report/` | Client-ready deliverable generation |
+| Metrique | Valeur | Source |
+|----------|--------|--------|
+| Marche GEO (2025) | $850M+ | Yahoo Finance |
+| Projection 2031 | $7.3B (34% CAGR) | Analystes |
+| Croissance trafic IA | +527% (Jan-Mai 2025) | SparkToro |
+| Conversion IA vs organique | 4.4x plus eleve | Donnees industrie |
+| Google AI Overviews | 1.5B users/mois, 200+ pays | Google |
+| ChatGPT users actifs | 900M+/semaine | OpenAI |
+| Perplexity requetes | 500M+/mois | Perplexity |
+| Gartner: baisse search 2028 | -50% | Gartner |
+| Brand mentions vs backlinks | 3x plus fort pour IA | Ahrefs (Dec 2025) |
 
 ---
 
-## Subagents (5 Parallel Workers)
+# SECTION 1 — `/geo gsc` : Rapport Google Search Console
 
-| Agent | File | Skills Used |
-|-------|------|-------------|
-| geo-ai-visibility | `agents/geo-ai-visibility.md` | geo-citability, geo-crawlers, geo-llmstxt, geo-brand-mentions |
-| geo-platform-analysis | `agents/geo-platform-analysis.md` | geo-platform-optimizer |
-| geo-technical | `agents/geo-technical.md` | geo-technical |
-| geo-content | `agents/geo-content.md` | geo-content |
-| geo-schema | `agents/geo-schema.md` | geo-schema |
+Quand l'utilisateur tape `/geo gsc`, executer les 8 phases ci-dessous.
+Prerequis : MCP GSC Server configure dans Claude Code.
+
+## Phase 0 — Identification du site
+
+1. Lister les proprietes GSC disponibles via `mcp__gsc__list_properties`
+2. Si une seule propriete : l'utiliser automatiquement
+3. Si plusieurs proprietes : demander au user laquelle analyser via `AskUserQuestion`
+4. Stocker le `site_url` pour toutes les etapes suivantes
+
+## Phase 1 — Vue d'ensemble performance (28 derniers jours)
+
+1. Appeler `mcp__gsc__get_performance_overview` (days=28)
+2. Afficher un resume formate :
+   ```
+   === PERFORMANCE (28 derniers jours) ===
+   Clics totaux      : X
+   Impressions        : X
+   CTR moyen          : X%
+   Position moyenne   : X
+   ```
+
+## Phase 2 — Comparaison de periodes
+
+1. Comparer les 28 derniers jours vs les 28 jours precedents via `mcp__gsc__compare_search_periods`
+   - Dimensions : `query`
+   - Limit : 20
+2. Afficher les tendances :
+   ```
+   === EVOLUTION vs PERIODE PRECEDENTE ===
+   Clics      : +X% / -X%
+   Impressions: +X% / -X%
+   CTR        : +X pts / -X pts
+   Position   : amelioration / degradation
+
+   Top requetes en croissance : ...
+   Top requetes en baisse     : ...
+   ```
+
+## Phase 3 — Top requetes et pages
+
+Lancer ces 4 appels **en parallele** :
+
+1. `mcp__gsc__get_advanced_search_analytics` — dimensions: `query`, sort_by: `clicks` desc, row_limit: 20
+2. `mcp__gsc__get_advanced_search_analytics` — dimensions: `page`, sort_by: `clicks` desc, row_limit: 20
+3. `mcp__gsc__get_advanced_search_analytics` — dimensions: `device`
+4. `mcp__gsc__get_advanced_search_analytics` — dimensions: `country`, row_limit: 10
+
+Puis un 5e appel avec **periode elargie** (90 jours) :
+
+5. `mcp__gsc__get_advanced_search_analytics` — dimensions: `query,page`, sort_by: `impressions` desc, row_limit: 30, start_date: 90 jours avant
+
+Afficher :
+```
+=== TOP 20 REQUETES ===
+| # | Requete | Clics | Impressions | CTR | Position |
+
+=== TOP 20 PAGES ===
+| # | Page | Clics | Impressions | CTR | Position |
+
+=== REPARTITION PAR DEVICE ===
+Desktop : X% | Mobile : X% | Tablet : X%
+
+=== TOP PAYS ===
+| Pays | Clics | Impressions | CTR | Position |
+```
+
+## Phase 4 — Sitemaps
+
+1. `mcp__gsc__list_sitemaps_enhanced` pour lister tous les sitemaps
+2. Pour chaque sitemap, noter : URLs soumises vs indexees, derniere soumission, erreurs
+3. Afficher :
+   ```
+   === SITEMAPS ===
+   | Sitemap | URLs soumises | URLs indexees | Taux | Derniere soumission |
+   ```
+
+## Phase 5 — Inspection d'indexation
+
+1. Prendre les 5-10 pages les plus importantes (Phase 3) + pages strategiques du sitemap non presentes dans les tops
+2. Appeler `mcp__gsc__batch_url_inspection` avec ces URLs
+3. Pour chaque URL : statut d'indexation, couverture, rich results, derniere exploration
+4. Afficher :
+   ```
+   === INDEXATION ===
+   | Page | Statut | Couverture | Rich Results | Derniere exploration |
+   Pages non indexees ou en erreur : [liste]
+   ```
+
+## Phase 6 — Analyse mots-cles et contenu (keyword gap)
+
+### 6.1 Identifier les opportunites
+Pour chaque page avec impressions :
+1. `mcp__gsc__get_search_by_page_query` pour obtenir les requetes associees
+2. Si GSC anonymise (volume faible), elargir a 90 jours
+
+### 6.2 Verifier presence dans le contenu
+Pour chaque couple (requete vers page) :
+1. Lire le code source de la page (dictionnaires i18n, composants, metadata)
+2. Chercher le mot-cle exact avec `Grep`
+3. Classifier :
+   - **Present et bien place** (H1, title, meta description) = OK
+   - **Present mais faible** (body uniquement) = a renforcer
+   - **Absent** = a ajouter
+
+### 6.3 Afficher
+```
+=== KEYWORD GAP ===
+| Page | Mot-cle GSC | Impressions | Position | Present ? | Action |
+```
+
+## Phase 7 — Opportunites d'amelioration
+
+### 7.1 Quick Wins
+- Requetes position 5-20 avec impressions elevees mais CTR faible = optimiser title/meta
+- Requetes position 11-20 = pousser en 1ere page
+- Mots-cles manquants = les ajouter
+
+### 7.2 Problemes d'indexation
+- Pages non indexees, erreurs de crawl, ecarts sitemap
+
+### 7.3 Contenu
+- Requetes sans page dediee = creer du contenu
+- Pages sans trafic = ameliorer ou desindexer
+- Cannibalization
+
+### 7.4 Technique
+- Ecart mobile vs desktop, rich results manquants, couverture sitemap
+
+## Phase 8 — Resume executif
+```
+=== RESUME EXECUTIF ===
+Site : [url]
+Periode : [dates]
+Points forts : ...
+Points faibles : ...
+Actions prioritaires : 1. ... 2. ... 3. ...
+Score sante SEO : X/10
+```
 
 ---
 
-## Output Files
+# SECTION 2 — `/geo audit <url>` : Audit Complet GEO+SEO+GSC
 
-All commands generate structured output:
+C'est l'audit le plus complet. Il combine les analyses GEO avec les donnees reelles GSC.
 
-| Command | Output File |
-|---------|------------|
+## Phase 1 : Decouverte (Sequentiel)
+
+1. Fetch homepage HTML via WebFetch
+2. Detecter le type de business :
+   | Type | Signaux |
+   |------|---------|
+   | **SaaS** | Pricing, "Sign up", "Free trial", API docs |
+   | **Local** | Adresse, telephone, Google Maps, zone de service |
+   | **E-commerce** | Produits, panier, prix, "Add to cart" |
+   | **Publisher** | Blog, articles, bylines, dates |
+   | **Agency** | Portfolio, cas clients, "Nos services", temoignages |
+3. Extraire les pages cles depuis sitemap.xml (max 50 pages)
+
+## Phase 2 : Analyse Parallele (6 tracks simultanees)
+
+Lancer ces 6 analyses **en parallele** :
+
+| # | Track | Responsabilite |
+|---|-------|---------------|
+| 1 | **AI Visibility** | Citabilite, crawlers IA, llms.txt, brand mentions |
+| 2 | **Platform Analysis** | Optimisation ChatGPT, Perplexity, Google AIO |
+| 3 | **Technical SEO** | Core Web Vitals, SSR, securite, mobile |
+| 4 | **Content E-E-A-T** | Qualite contenu, auteur, sources, fraicheur |
+| 5 | **Schema Markup** | Detection, validation, generation JSON-LD |
+| 6 | **GSC Data** | Phases 0-5 du rapport GSC (performance, indexation, sitemaps) |
+
+## Phase 3 : Keyword Gap + Citabilite Croisee
+
+1. Executer Phase 6 du GSC (keyword gap)
+2. Pour chaque page avec un gap de mot-cle, scorer aussi sa citabilite IA
+3. Croiser : pages a fort potentiel GSC + faible citabilite = priorite maximale
+
+## Phase 4 : Synthese et Scoring
+
+### GEO Score (0-100)
+
+| Categorie | Poids | Mesure |
+|-----------|-------|--------|
+| Citabilite IA | 25% | Qualite des passages, answer blocks, acces crawlers |
+| Autorite de Marque | 20% | Mentions Reddit, YouTube, Wikipedia, LinkedIn |
+| Contenu E-E-A-T | 20% | Expertise, sources, auteur, fraicheur |
+| Technique | 15% | SSR, Core Web Vitals, securite, mobile |
+| Donnees Structurees | 10% | Schema completude, validation JSON-LD |
+| Optimisation Plateforme | 10% | Readiness ChatGPT, Perplexity, Google AIO |
+
+### SEO Health Score (0/10) — depuis GSC
+
+Base sur les donnees reelles :
+- Clics, impressions, CTR, position moyenne
+- Taux d'indexation
+- Couverture sitemap
+- Tendance vs periode precedente
+
+### Rapport Final
+
+Generer `GEO-AUDIT-REPORT.md` avec :
+- Resume executif (GEO Score + SEO Health Score)
+- Score breakdown par categorie
+- Issues critiques / hautes / moyennes / basses
+- Quick Wins (cette semaine)
+- Plan d'action 30 jours
+- Donnees GSC integrees (top requetes, pages, keyword gaps)
+- Annexe : pages analysees
+
+---
+
+# SECTION 3 — Sous-commandes GEO
+
+Chaque sous-commande route vers le sub-skill correspondant :
+
+| Commande | Sub-skill | Script Python |
+|----------|-----------|---------------|
+| `/geo citability <url>` | `geo-citability/` | `scripts/citability_scorer.py` |
+| `/geo crawlers <url>` | `geo-crawlers/` | `scripts/fetch_page.py robots` |
+| `/geo llmstxt <url>` | `geo-llmstxt/` | `scripts/llmstxt_generator.py` |
+| `/geo brands <url>` | `geo-brand-mentions/` | `scripts/brand_scanner.py` |
+| `/geo platforms <url>` | `geo-platform-optimizer/` | — |
+| `/geo schema <url>` | `geo-schema/` | — |
+| `/geo technical <url>` | `geo-technical/` | — |
+| `/geo content <url>` | `geo-content/` | — |
+| `/geo report <url>` | `geo-report/` | — |
+| `/geo report-pdf <url>` | `geo-report-pdf/` | `scripts/generate_pdf_report.py` |
+
+### Utilisation des scripts Python
+
+Les scripts sont dans `~/.claude/skills/geo/scripts/`. Executer via :
+```bash
+python3 ~/.claude/skills/geo/scripts/fetch_page.py <url> [mode]
+python3 ~/.claude/skills/geo/scripts/citability_scorer.py <url>
+python3 ~/.claude/skills/geo/scripts/brand_scanner.py "<brand>" [domain]
+python3 ~/.claude/skills/geo/scripts/llmstxt_generator.py <url> [validate|generate]
+python3 ~/.claude/skills/geo/scripts/generate_pdf_report.py <data.json> [output.pdf]
+```
+
+---
+
+# SECTION 4 — Fichiers de Sortie
+
+| Commande | Fichier genere |
+|----------|---------------|
 | `/geo audit` | `GEO-AUDIT-REPORT.md` |
-| `/geo page` | `GEO-PAGE-ANALYSIS.md` |
+| `/geo gsc` | Affichage inline (pas de fichier) |
 | `/geo citability` | `GEO-CITABILITY-SCORE.md` |
 | `/geo crawlers` | `GEO-CRAWLER-ACCESS.md` |
-| `/geo llmstxt` | `llms.txt` (ready to deploy) |
+| `/geo llmstxt` | `llms.txt` (pret a deployer) |
 | `/geo brands` | `GEO-BRAND-MENTIONS.md` |
-| `/geo platforms` | `GEO-PLATFORM-OPTIMIZATION.md` |
-| `/geo schema` | `GEO-SCHEMA-REPORT.md` + generated JSON-LD |
+| `/geo schema` | `GEO-SCHEMA-REPORT.md` + JSON-LD |
 | `/geo technical` | `GEO-TECHNICAL-AUDIT.md` |
 | `/geo content` | `GEO-CONTENT-ANALYSIS.md` |
-| `/geo report` | `GEO-CLIENT-REPORT.md` (presentation-ready) |
-| `/geo report-pdf` | `GEO-REPORT.pdf` (professional PDF with charts) |
-| `/geo quick` | Inline summary (no file) |
+| `/geo report` | `GEO-CLIENT-REPORT.md` |
+| `/geo report-pdf` | `GEO-REPORT.pdf` |
+| `/geo quick` | Inline (pas de fichier) |
 
 ---
 
-## PDF Report Generation
+# SECTION 5 — Regles
 
-The `/geo report-pdf <url>` command generates a professional, branded PDF report:
-
-### How It Works
-1. Run the full audit or individual analyses first
-2. Collect all scores and findings into a JSON structure
-3. Execute the PDF generator: `python3 ~/.claude/skills/geo/scripts/generate_pdf_report.py data.json GEO-REPORT.pdf`
-
-### What the PDF Includes
-- **Cover page** with GEO score gauge visualization
-- **Score breakdown** with color-coded bar charts
-- **AI Platform Readiness** dashboard with horizontal bar chart
-- **Crawler Access** status table with color-coded Allow/Block
-- **Key Findings** categorized by severity (Critical/High/Medium/Low)
-- **Prioritized Action Plan** (Quick Wins, Medium-Term, Strategic)
-- **Methodology & Glossary** appendix
-
-### Workflow
-1. First run `/geo audit <url>` to collect all data
-2. Then run `/geo report-pdf <url>` to generate the PDF
-3. The tool will compile audit data into JSON, then generate the PDF
-4. Output: `GEO-REPORT.pdf` in the current directory
-
----
-
-## Quality Gates
-
-- **Crawl limit:** Max 50 pages per audit (focus on quality over quantity)
-- **Timeout:** 30 seconds per page fetch
-- **Rate limiting:** 1-second delay between requests, max 5 concurrent
-- **Robots.txt:** Always respect, always check
-- **Duplicate detection:** Skip pages with >80% content similarity
-
----
-
-## Quick Start Examples
-
-```
-# Full GEO audit of a website
-/geo audit https://example.com
-
-# Check if AI bots can see your site
-/geo crawlers https://example.com
-
-# Score a specific page for AI citability
-/geo citability https://example.com/blog/best-article
-
-# Generate an llms.txt file for your site
-/geo llmstxt https://example.com
-
-# Get a 60-second visibility snapshot
-/geo quick https://example.com
-
-# Generate a client-ready report
-/geo report https://example.com
-```
+- **Langue** : Toute sortie en francais sauf demande explicite de l'utilisateur
+- **GSC d'abord** : Pour `/geo audit`, toujours collecter les donnees GSC en parallele des analyses GEO
+- **Appels paralleles** : Maximiser les appels MCP en parallele (Phase 3 GSC = 4 appels simultanes)
+- **Formatter en tableaux markdown** pour la lisibilite
+- **Recommandations actionnables** : toujours basees sur les donnees reelles, jamais generiques
+- **Si une API echoue** : noter l'erreur, continuer avec les donnees disponibles
+- **Volume faible GSC** : elargir la periode a 90 jours, utiliser dimensions `query,page` croisees
+- **Keyword gap obligatoire** : toujours verifier les mots-cles dans le contenu source
+- **Proposer d'appliquer** les corrections directement si le projet est local
+- **Crawl limit** : Max 50 pages par audit
+- **Timeout** : 30 secondes par page fetch
+- **Robots.txt** : Toujours respecter
+- **Mettre a jour MEMORY.md** apres chaque rapport avec les metriques cles
